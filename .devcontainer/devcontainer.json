@@ -1,6 +1,7 @@
 {
     "name": "AzurePipelines",
-    "dockerFile": "Dockerfile",
+    //"dockerFile": "Dockerfile",
+    "image": "mcr.microsoft.com/devcontainers/dotnet:1-6.0",
 
     // Configure tool-specific properties.
     "customizations": {
