@@ -2,10 +2,7 @@ trigger:
 - '*'
 
 pool:
-  name: Codespaces
-  vmImage: 'ubuntu-20.04'
-  demands:
-  - npm
+  name: Codespaces # Replace Default with the name of your agent pool if you used a different pool
 
 variables:
   buildConfiguration: 'Release'
@@ -19,6 +16,16 @@ steps:
     packageType: sdk
     version: '$(dotnetSdkVersion)'
 
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
@@ -29,6 +36,8 @@ steps:
 
 - task: gulp@1
   displayName: 'Run gulp tasks'
+  inputs: 
+    gulpjs: './gulpfile.js'
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
